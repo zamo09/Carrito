@@ -1,0 +1,129 @@
+
+body{
+	margin:0;
+	padding:0;
+	background:#f1f1f1;
+	font:70% Arial, Helvetica, sans-serif; 
+	color:#555;
+	line-height:150%;
+	text-align:left;
+}
+a{
+	text-decoration:none;
+	color:#057fac;
+}
+a:hover{
+	text-decoration:none;
+	color:#999;
+}
+h1{
+	font-size:140%;
+	margin:0 20px;
+	line-height:80px;	
+}
+h2{
+	font-size:120%;
+}
+#container{
+	margin:0 auto;
+	width:680px;
+	background:#fff;
+	padding-bottom:20px;
+}
+#content{margin:0 20px;}
+p.sig{	
+	margin:0 auto;
+	width:680px;
+	padding:1em 0;
+}
+form{
+	margin:1em 0;
+	padding:.2em 20px;
+	background:#eee;
+}
+
+/*Botones Estilos Generales*/
+.button {
+	background:#7f8c8d;
+	color:#fff;
+	display:inline-block;
+	font-size:1.25em;
+	padding:5px 0;
+	text-align:center;
+	width:200px;
+	text-decoration:none;
+	box-shadow:0px 3px 0px #373c3c;
+}
+ 
+.button span {
+	margin-right:10px;
+}
+ 
+/*Colores*/
+.button.blue {
+	background:#3498db;
+	box-shadow:0px 3px 0px #266792;
+}
+
+.button.red {
+	background:#ff0000;
+	box-shadow:0px 3px 0px #b42d2d;
+}
+ 
+.button.yellow {
+	background:#e67e22;
+	box-shadow:0px 3px 0px #b55704;
+}
+ 
+ 
+/*Tamaños*/
+.button.small {
+	width:70px;
+	height: 10px;
+}
+
+.button.medium {
+	width:100px;
+}
+ 
+ 
+.button.large {
+	width:200px;
+}
+ 
+ 
+.button.radius {
+	border-radius:25px;
+}
+ 
+/*Efectos, Hover*/
+.button:hover {
+	box-shadow:0px 0px 0px;
+	padding-top:7px;
+}
+
+/* Tablas */
+
+table, td{
+	font:100% Arial, Helvetica, sans-serif; 
+}
+table{width:100%;border-collapse:collapse;margin:1em 0;}
+th, td{text-align:left;padding:.5em;border:1px solid #fff;}
+th{background:#328aa4 url(tr_back.gif) repeat-x;color:#fff;}
+td{background:#e5f1f4;}
+
+/* tablecloth styles */
+
+tr.even td{background:#e5f1f4;}
+tr.odd td{background:#f8fbfc;}
+
+th.over, tr.even th.over, tr.odd th.over{background:#4a98af;}
+th.down, tr.even th.down, tr.odd th.down{background:#bce774;}
+th.selected, tr.even th.selected, tr.odd th.selected{}
+
+td.over, tr.even td.over, tr.odd td.over{background:#ecfbd4;}
+td.down, tr.even td.down, tr.odd td.down{background:#bce774;color:#fff;}
+td.selected, tr.even td.selected, tr.odd td.selected{background:#bce774;color:#555;}
+
+/* use this if you want to apply different styleing to empty table cells*/
+td.empty, tr.odd td.empty, tr.even td.empty{background:#fff;}
