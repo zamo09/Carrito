@@ -17,7 +17,7 @@ $q = true;
 	<div class="row">
 		<div class="col-md-12">
 			<h1>PContenedores</h1>
-			<!-- <a href="./cart.php" class="btn btn-warning">Ver Carrito</a>  -->
+		    	<!-- <a href="./cart.php" class="btn btn-warning">Ver Carrito</a>  -->
 			<br><br>
 <?php
 /*

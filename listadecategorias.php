@@ -9,11 +9,8 @@
 	<body>
 		<?php 
 			$SQL = "SELECT * FROM categoria WHERE activo = 1";
-			include("php/coneccion.php");
-			$conexion = mysql_connect($servidor,$usuario,$contraseña);
-						mysql_select_db($BD,$conexion);
-						mysql_query("SET NAMES 'utf8'");
-			$selectTable = mysql_query($SQL,$conexion);
+            include("./php/conection.php");
+            $selectTable = $con->query($SQL);
 		?>
 		<div id="container" class="container">	
 			<div id="content">
@@ -33,7 +30,7 @@
 						</tr>
 					</thead>
 				<?php
-				while ($fila = mysql_fetch_array($selectTable)){
+				while ($fila = $selectTable->fetch_row()){
 					echo '<tr>';
 						echo '<td>' . $fila[0] . '</td>';
 						echo '<td>' . $fila[1] . '</td>';
@@ -68,6 +65,5 @@ function myFunction() {
   }
 }
 </script>
-
 	</body>
 </html>
