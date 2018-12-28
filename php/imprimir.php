@@ -1,5 +1,6 @@
 <?php
-	include "conection.php";
+    $id_cotizacion = $_GET['id_cotizacion'];
+    include "conection.php";
 	require 'FPDF/fpdf.php';
 	
 	$pdf = new FPDF('P','mm','Letter');
@@ -16,7 +17,7 @@
 	$pdf->Image('../img/pdf/Loco-Cafe.png', 10, 10, 25, 10, 'PNG');
 	//Texto de Título
 	$pdf->SetXY(20, 10);
-	$pdf->MultiCell(170, 8, utf8_decode('Cotizacion Casa Baltazar'), 0, 'C');
+	$pdf->MultiCell(170, 8, utf8_decode('Cotizacion Casa Baltazar' ), 0, 'C');
 	//Texto Explicativo
 	$pdf->SetFont('Courier','', 9);
 	$pdf->SetXY(6, 23);
@@ -26,11 +27,13 @@
 	$pdf->SetFont('Arial','B',10);
 	$pdf->SetFillColor(84,206,51);
 	$pdf->SetXY(170, 33);	
-	$pdf->Cell(35,7.5,utf8_decode('No° Cotizacion'),1,1,'C','true');
+	$pdf->Cell(35,7.5,utf8_decode('No° Cotizacion' ),1,1,'C','true');
 	$pdf->SetXY(170, 40.5);
-	$pdf->Cell(35,7.5,utf8_decode('335845'),1,1,'C');
+	$pdf->Cell(35,7.5,utf8_decode($id_cotizacion),1,1,'C');
 
-	//Datos del cliente
+    //Datos del cliente
+    $select_datos = $con->query("SELECT correo,telefono FROM cotizacion WHERE id_cotizacion = ". $id_cotizacion. ";");
+    $datos_cliente = $select_datos->fetch_assoc(); 
 	$pdf->SetXY(10, 33);
 	$pdf->Cell(20,5,utf8_decode('Fecha:'),'LT',1,'L');
 	$pdf->Cell(20,5,utf8_decode('Email:'),'L',1,'L');
@@ -41,61 +44,74 @@
 	$meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 	$pdf->Cell(138,5,$dias[date('w')]." ".date('d')." de ".$meses[date('n')-1]. " del ".date('Y'),'TR',1,'L');
 	$pdf->SetXY(30, 38);
-	$pdf->Cell(138,5,utf8_decode('samyy_1614@hotmail.com'),'R',1,'L');
+	$pdf->Cell(138,5,utf8_decode($datos_cliente['correo']),'R',1,'L');
 	$pdf->SetXY(30, 43);
-	$pdf->Cell(138,5,utf8_decode('271-104-22-33'),'RB',1,'L');
+	$pdf->Cell(138,5,utf8_decode($datos_cliente['telefono']),'RB',1,'L');
 
 	//Linea divisora
 	//$pdf->Line(10,51.5,205,51.5);
 
-	//Datos de la canasta	
+    //Datos de la canasta
+    $select_contenedor = $con->query("SELECT P.nombre, P.ruta FROM producto P, carrito C WHERE C.id_cotizacion =" . $id_cotizacion ." AND C.id_producto = P.id_producto AND P.id_categoria = 2;");
+    $contenedor = $select_contenedor->fetch_assoc();
+    $select_productos = $con->query("SELECT P.nombre, C.cantidad FROM producto P, carrito C WHERE C.id_cotizacion = " . $id_cotizacion . " AND C.id_producto = P.id_producto AND P.id_categoria != 2 ;");
+
 	$pdf->SetXY(10, 55);
 	$pdf->SetFont('Arial','B',10);
 	$pdf->Cell(175,10,utf8_decode('Contenedor Seleccionado:'),1,1,'C');
 	$pdf->SetXY(10, 65);
 	$pdf->SetFont('Arial','',10);
-	$pdf->Cell(175,10,utf8_decode('Arcon Grande'),1,1,'C');
-	$pdf->SetXY(185, 55);
-	$pdf->Cell(20,20, $pdf->Image('../img/12963.gif', $pdf->GetX(), $pdf->GetY(),20, 20, 'GIF'),1);
+	$pdf->Cell(175,10,utf8_decode($contenedor['nombre']),1,1,'C');
+    $pdf->SetXY(185, 55);
+    $tipocontenedor =strtoupper(substr($contenedor['ruta'], -3)); 
+	$pdf->Cell(20,20, $pdf->Image("../".$contenedor['ruta'], $pdf->GetX(), $pdf->GetY(),20, 20, $tipocontenedor),1);
 	$pdf->SetXY(10, 75);
 	$pdf->SetFont('Arial','B',10);
 	$pdf->Cell(175,5,utf8_decode('Productos de Canasta'),1,1,'C');
-	$pdf->SetFont('Arial','',10);
-	$pdf->Cell(175,5,utf8_decode('Costal Café Córdoba 500G'),1,1,'L');
-	$pdf->Cell(175,5,utf8_decode('Brandy Terry Centenario, 700ml'),1,1,'L');
-	$pdf->Cell(175,5,utf8_decode('Brandy Torres 10, 700ml'),1,1,'L');
-	$pdf->Cell(175,5,utf8_decode('Cafe de chocolate'),1,1,'L');
-	$pdf->Cell(175,5,utf8_decode('Costal de Café Córdoba Prima Lavado, 500g'),1,1,'L');
-
-	$pdf->SetFont('Arial','B',10);
+    $pdf->SetFont('Arial','',10);
+    $cantidad_pocision = 75;
+    $pdf->SetFont('Arial','B',10);
 	$pdf->SetXY(185, 75);
-	$pdf->Cell(20,5,utf8_decode('Cantidad'),1,1,'C');
-	$pdf->SetFont('Arial','',10);
-	$pdf->SetXY(185, 80);
-	$pdf->Cell(20,5,utf8_decode('1'),1,1,'C');
-	$pdf->SetXY(185, 85);
-	$pdf->Cell(20,5,utf8_decode('1'),1,1,'C');
-	$pdf->SetXY(185, 90);
-	$pdf->Cell(20,5,utf8_decode('1'),1,1,'C');
-	$pdf->SetXY(185, 95);
-	$pdf->Cell(20,5,utf8_decode('1'),1,1,'C');
-	$pdf->SetXY(185, 100);
-	$pdf->Cell(20,5,utf8_decode('1'),1,1,'C');
+    $pdf->Cell(20,5,utf8_decode('Cantidad'),1,1,'C');
+    $contador=0;
+    while ($nombre = $select_productos->fetch_row()){
+        $cantidad_pocision = $cantidad_pocision + 5;
+        $pdf->SetXY(10, $cantidad_pocision );
+        $pdf->SetFont('Arial','',10);
+        $pdf->Cell(175,5,utf8_decode($nombre[0]),1,1,'L');          
+        $pdf->SetXY(185, ($cantidad_pocision));
+        $pdf->Cell(20,5,utf8_decode($nombre[1]),1,1,'C'); 
+        $contador= $contador +1;
+    }
 
-	$pdf->SetXY(10, 105);
-	$variable = "PNG";
-	$pdf->Cell(39,39, $pdf->Image('../img/10178.gif', $pdf->GetX(), $pdf->GetY(),39, 39,'GIF'),1);
-	$pdf->Cell(39,39, $pdf->Image('../img/c500m_1.png', $pdf->GetX(), $pdf->GetY(),39, 39,'PNG'),1);
-	$pdf->Cell(39,39, $pdf->Image('../img/l500l.png', $pdf->GetX(), $pdf->GetY(),39, 39,$variable),1);
-	$pdf->Cell(39,39, $pdf->Image('../img/no.png', $pdf->GetX(), $pdf->GetY(),39, 39,$variable),1);
-	$pdf->Cell(39,39, $pdf->Image('../img/10179.gif', $pdf->GetX(), $pdf->GetY(),39, 39,'GIF'),1,1); //Ultima linea debe llevar el salto de linea 
+    //Imagenes
+    $select_imagenes= $con->query("SELECT P.ruta FROM producto P, carrito C WHERE C.id_cotizacion = " . $id_cotizacion . " AND C.id_producto = P.id_producto AND P.id_categoria != 2 ;");
 
-	//TOTAL
-	$pdf->SetX(175);
+	$pdf->SetXY(10, ($cantidad_pocision+5));
+    $variable = "PNG";
+    $tamaño = 195 / $contador;
+    $contador2 = 0;
+    while ($ruta = $select_imagenes->fetch_row()){
+        $tipo =strtoupper(substr($ruta[0], -3)); 
+        if ($contador = $contador2){
+            $pdf->Cell($tamaño,$tamaño, $pdf->Image("../" . $ruta[0], $pdf->GetX(), $pdf->GetY(),$tamaño,$tamaño, $tipo),1,1); //Ultima linea debe llevar el salto de linea 
+        }else{
+            $pdf->Cell($tamaño,$tamaño, $pdf->Image("../" . $ruta[0], $pdf->GetX(), $pdf->GetY(),$tamaño,$tamaño, $tipo),1);
+        }
+        
+    }
+
+    //TOTAL
+    $select_precio= $con->query("SELECT P.precio FROM producto P, carrito C WHERE C.id_cotizacion = " . $id_cotizacion . " AND C.id_producto = P.id_producto ;");
+	$pdf->SetXY(175,( $cantidad_pocision+$tamaño+5));
 	$pdf->SetFont('Arial','B',10);
 	$pdf->Cell(12,5,'Total:',1,'C');
-	$pdf->SetFont('Arial','',10);
-	$pdf->Cell(18,5,'$1758.50',1,'C');
+    $pdf->SetFont('Arial','',10);
+    $precio = 0;
+    while ($pre = $select_precio->fetch_row()){
+        $precio = $precio + $pre[0];
+    }
+	$pdf->Cell(18,5,"$".$precio,1,1,'C');
 
 
 	//Politicas y cambios
@@ -118,8 +134,6 @@
 	$pdf->Image('../img/pdf/direccion.png', 177,269, 5, 5, 'PNG');
 	$pdf->SetXY(187, 269);
 	$pdf->Cell(20,5,utf8_decode('Av. 1 entre calles 6 y 8'),0,1,'C');
-
-
 
 	$pdf->Output(); 
 ?>

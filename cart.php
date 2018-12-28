@@ -70,17 +70,14 @@ $r = $products->fetch_object();
   </div>
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
-      <button type="submit" class="btn btn-primary">Procesar Venta</button> <a href="php/imprimir.php" class="btn btn-danger">Imprimir</a>
+      <button type="submit" class="btn btn-primary">Procesar Venta</button> <a href="php/imprimir.php?" class="btn btn-danger">Imprimir</a>
     </div>
   </div>
 </form>
-
-
 <?php else:?>
 	<p class="alert alert-warning">El carrito esta vacio.</p>
 <?php endif;?>
 <br><br><hr>
-
 		</div>
 	</div>
 </div>
