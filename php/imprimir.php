@@ -134,6 +134,58 @@
 	$pdf->Image('../img/pdf/direccion.png', 177,269, 5, 5, 'PNG');
 	$pdf->SetXY(187, 269);
 	$pdf->Cell(20,5,utf8_decode('Av. 1 entre calles 6 y 8'),0,1,'C');
+    $doc = $pdf->Output('','S');
 
-	$pdf->Output(); 
+
+    session_start();
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require 'PHPMailer/src/Exception.php';
+require 'PHPMailer/src/PHPMailer.php';
+require 'PHPMailer/src/SMTP.php';
+
+$email = $_SESSION['datos'][0];
+ini_set('max_execution_time', 300);
+		$mail = new PHPMailer(true);
+		try {
+		    //Server settings
+		    $mail->SMTPDebug = 2;                                 // Enable verbose debug output
+		    $mail->isSMTP();                                      // Set mailer to use SMTP
+		    $mail->Host = 'smtp.gmail.com';              // Specify main and backup SMTP servers
+		    $mail->SMTPAuth = true;                               // Enable SMTP authentication
+		    $mail->Username = 'cesarsamuelrohdz@gmail.com';                 // SMTP username
+		    $mail->Password = 'rstw$am06798';                           // SMTP password
+		    $mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
+		    $mail->Port = 587;                                    // TCP port to connect to
+
+		    //Recipients
+		    $mail->setFrom('cesarsamuelrohdz@gmail.com', 'Cotizacion Casa Baltazar');
+		    $mail->addAddress($email, 'Cliente Cafe Cordoba');     // Add a recipient
+		    //$mail->addAddress('ellen@example.com');               // Name is optional
+		    //$mail->addReplyTo('info@example.com', 'Information');
+		    //$mail->addCC('cc@example.com');
+		    //$mail->addBCC('bcc@example.com');
+
+		    //Attachments
+		    //$mail->addAttachment('/var/tmp/file.tar.gz');         // Add attachments
+		    //$mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
+
+		    //Content
+		    $mail->isHTML(true);                                  // Set email format to HTML
+		    $mail->Subject = 'Cotizacion Canastar';
+            $mail->Body    = 'Le hemos enviado una cotizacion con los productos que selecciono dentro de la pagina www.Cafecordoba.com y con esta misma se le dara seguimiento a su pedido. Le recordamos que al realizar dicha cotizacion su pedido no se encuentra aun en proceso, para concluir debe de confirmar via telefonica con alguno de nuestros asesores de ventas, los cuales en breve un ejecutivo se pondra en contacto <b>Gracias por su preferencia</b>';
+		    $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+            $mail->AddStringAttachment($doc,"CasaBaltazar ".$id_cotizacion.".pdf", 'base64', 'application/pdf');
+		    $mail->SMTPDebug = 0; //quitar mensajes de diagnostico
+		    $mail->send();
+            session_destroy();
+            print "<script>alert('Cotizacion enviada al correo".$datos_cliente['correo']."');</script>";
+            echo "<script type=\"text/javascript\">      
+            window.open('$doc', '_blank')    
+            </script>";
+		    //print "<script>window.location='../products.php';</script>";
+		} catch (Exception $e) {
+		    echo 'Message could not be sent. Mailer Error: ';
+		}
 ?>
