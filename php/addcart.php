@@ -61,7 +61,7 @@ echo "carga();";
 
 echo "</script>";
 
-		print "<script>window.history.back()</script>";
+		print "<script>window.location='../categorias.php';</script>";
 	}else{
 		echo "nada";
 	}

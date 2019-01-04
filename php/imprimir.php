@@ -5,17 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Mi cotizacion</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" media="screen" href="../css/carga.css" />
+    <!-- <link rel="stylesheet" type="text/css" media="screen" href="../css/carga.css" /> -->
 </head>
 <body>
-<script>    
-    window.onload = function () {
-        var contenedor = document.getElementById('contenedor_carga');
-        contenedor.style.visibility = 'hidden';
-        contenedor.style.opacity = '0';        
-    }
-</script>
-<img
+
+
 <?php
     $id_cotizacion = $_GET['id_cotizacion'];
     include "conection.php";
@@ -304,17 +298,10 @@ ini_set('max_execution_time', 300);
             print "<script>alert('Cotizacion enviada al correo ".$datos_cliente['correo']."');</script>";
  ?>
 
-
-                <div id='contenedor_carga'>
-                    <div id='carga'>
-
-                    </div>
-                </div>
-
             
            <!-- unlink($mi_pdf); //elimina el archivo creado -->
-            <a href="<?php echo $mi_pdf; ?>'" download="CasaBaltazar<?php echo $id_cotizacion;?>'.pdf">Descargar Archivo</a>
-            <button href='../index.php\'>Llévame a otro lado</button>
+            <a href="<?php echo $mi_pdf; ?>" download="CasaBaltazar<?php echo $id_cotizacion;?>.pdf">Descargar Archivo</a>
+            <a href="../index.php">Llévame a otro lado</a>
 <?php
 		} catch (Exception $e) {
 		    echo 'Message could not be sent. Mailer Error: ';

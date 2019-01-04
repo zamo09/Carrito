@@ -20,7 +20,7 @@ if(!empty($_SESSION["cart"])){
 if ($_GET["categoria"] == 1){
 					$_SESSION["contenedor"][0] = "0";
 				}
-print "<script>window.location='../products.php';</script>";
+print "<script>window.history.back()</script>";
 
 ?>
 

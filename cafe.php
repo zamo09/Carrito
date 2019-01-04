@@ -9,7 +9,7 @@ if($_SESSION["contenedor"][0] == "0"){
 }
 ?>
 <!DOCTYPE html>
-<html>
+<html>s
 <head>
 	<title>Lista de productos</title>
 	<link rel="stylesheet" type="text/css" href="css/main.css">

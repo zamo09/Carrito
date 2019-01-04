@@ -7,7 +7,7 @@
 }
 
 #contenedor_carga{
-    background-color: rgba(250, 240, 245, 0.9);
+    background-color: #FFF;
     height: 100%;
     width: 100%;
     position: fixed;
@@ -37,4 +37,15 @@
 @keyframes girar{
     from { transform: rotate(0deg);}
     to { transform: rotate(360deg)}
+}
+
+#contenedor_carga2{
+    background: url('../img/iconos/carga.gif') 50% 50% no-repeat;
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    -webkit-transition: all 1s ease;
+    -o-transition: all 1s ease;
+    transition: all 1s ease;
+    z-index: 10000;
 }

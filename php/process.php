@@ -20,6 +20,38 @@ if(!empty($_POST)){
 $datos = array($email,$tel);
 $_SESSION['datos'] = $datos;
 //print "<script>alert('Venta procesada exitosamente');window.location='send_mail.php';</script>";
-print "<script>alert('Venta procesada exitosamente');window.location='./imprimir.php?id_cotizacion=".$cart_id."';</script>";
+//
+?>
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Carga</title>
+	<link rel="stylesheet" type="text/css" media="screen" href="../css/carga.css" />
+</head>
+<body>
+	<script>    
+    carga(){
+        var contenedor = document.getElementById('contenedor_carga');
+        contenedor.style.visibility = 'hidden';
+        contenedor.style.opacity = '0';        
+    }
+</script>
+<div id='contenedor_carga2'>
+                    <div id='carga2'>
+
+                    </div>
+                </div>
+
+
+
+<?php
+echo "<script>";
+
+echo "carga();";
+
+echo "</script>";
+print "<script>window.location='./imprimir.php?id_cotizacion=".$cart_id."';</script>";
 
 ?>
+</body>
+</html>

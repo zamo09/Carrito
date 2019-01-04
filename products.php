@@ -70,7 +70,7 @@ if($_SESSION["contenedor"][0]==""){
 									<a href="php/delfromcart.php?categoria=1&id=<?php echo $c["product_id"];?>" class="btn btn-danger">Eliminar</a>
 								<?php else:?>
 									<?php if($_SESSION["contenedor"][0] == "0"):?>
-											<form class="form-inline" method="post" action="./php/addtocart.php">
+											<form class="form-inline" method="post" action="./php/addcart.php">
 												<input type="hidden" name="product_id" value="<?php echo $r->id_producto; ?>">
 												  <div class="form-group">
 												  	<input type="hidden" name="q" value="1" >
